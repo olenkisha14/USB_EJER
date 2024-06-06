@@ -1,0 +1,132 @@
+#pragma once
+#include "iostream"
+using namespace System;
+using namespace std;
+
+int menu()
+{
+	int op;
+	cout << endl << "\t\t MENU";
+	cout << endl << "\t\t ****";
+	cout << endl << "\t 1- LISTAR ELEMENTOS";
+	cout << endl << "\t 2- AGREGAR AL FINAL";
+	cout << endl << "\t 3- ELIMINAR EN POSICION";
+	cout << endl << "\t 4- AGREGAR AL INICIO";
+	cout << endl << "\t 5- MODIFICAR EN POSCION";
+	cout << endl << "\t 6- ORDENAR DE MAYOR A MENOR";
+	cout << endl << endl << "\t ELIJA UNA OPCION: ";
+	cin >> op;
+
+	return op;
+}
+
+//1.
+int listar_elementos(int* arreglo, int& N)
+{
+	if (arreglo != nullptr)
+	{
+		for (int i = 0; i < N; i++)
+		{
+			cout << endl << "\t " << arreglo[i];
+		}
+	}
+	else
+		cout << endl << "El arreglo no fue creado...";
+	return N;
+}
+
+//2.
+int * agregar_al_final(int * arreglo, int nuevo, int & N)// me funcion va a retornar un entero q apunta a entero, y int & N para que actualice el valor
+{
+	//1. Crear un arreglo temporal del mismo tipo y de tan N + 1
+	int* temporal;
+	temporal = new int[N + 1];//porq va a agregarse un nuevo elemento
+
+	//2. Copia el arreglo original al temporal
+	for (int i = 0; i < N; i++)
+	{
+		temporal[i] = arreglo[i];
+	}
+
+	//3. Agrega el nuevo elemento al arreglo temporal
+	temporal[N] = nuevo;// N por la posción en la que se encuentra el nuevo elemento
+
+	//4.Actualiza
+	N = N + 1;
+	return temporal;
+	//esta retornando el valor de un puntero: la dirección de memoria
+	//la dirección de memoria apunta al arreglo temporal.
+
+}
+
+//3.
+int* eliminar_en_posicion(int* arreglo, int posicion, int& N)
+{
+	if (posicion < 0 || posicion >= N)
+	{
+		cout << "Posicion invalida." << endl;
+		return arreglo;
+	}
+	int* temporal = new int[N - 1];//crea un nuevo arreglo con un tamaño reducido en uno.
+	int j = 0;//debe de estar fuera para iniciar correctamente
+	for (int i = 0; i < N; i++)
+		//copia todos los elementos del arreglo original al nuevo arreglo, excepto el elemento en la posición especificada.
+	{
+		if (i != posicion)
+		{
+			temporal[j++] = arreglo[i];
+		}
+	}
+	N = N - 1;//reduce el tamaño del arreglo en uno 
+	delete[] arreglo;
+	return temporal;//esta retornando el valor de un puntero: la dirección de memoria //la dirección de memoria apunta al arreglo temporal.
+}
+
+//4.
+int* agregar_al_inicio(int* arreglo, int nuevo, int& N)// me funcion va a retornar un entero q apunta a entero, y int & N para que actualice el valor
+{
+	//1. Crear un arreglo temporal del mismo tipo y de tan N + 1
+	int* temporal;
+	temporal = new int[N + 1];//porq va a agregarse un nuevo elemento
+
+	//2. Copia el arreglo original al temporal
+	for (int i = 0; i < N; i++)
+	{
+		temporal[i + 1] = arreglo[i];// con estose mueve dos hacia abajo
+	}
+
+	//3. Agrega el nuevo elemento al arreglo temporal
+
+	temporal[0] = nuevo;
+	// N por la posción en la que se encuentra el nuevo elemento
+
+	//4.Actualiza
+	N = N + 1;
+	return temporal;
+}
+
+//5.
+
+//6.
+// ORDENAR DE MAYOR A MENOR
+void intercambiar(int&n1, int & n2)//algoritmo de la burbuja
+{
+	int aux = n1;
+	n1 = n2;
+	n2 = aux;
+}
+
+void ordenar_elementos(int * arreglo, int N)
+{
+	for (int i = 0; i < N; i++)//para controlar las pasadas por el arreglo, primera segunda tercer etc
+	{
+		for (int j = 0; j < N; j++)//recorre los elementos de princio a fin, exceto el # de pasadas ya realizadas
+		{//en cada bucle se recorre uno menos al # de iteraciones, ya que al final ya estan en su lugar
+			if (arreglo[j] < arreglo[j + 1])
+			{//si el elemento actual es menor al posterior, intercambiarlo
+				intercambiar(arreglo[j], arreglo[j + 1]);
+			}
+		}
+	}
+}
+
